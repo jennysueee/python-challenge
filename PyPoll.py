@@ -5,14 +5,13 @@ import csv
 csvpath = os.path.join("Resources", "election_data.csv")
 output = os.path.join("Resources", "analysis.txt")
 
-# I know I didn't get this right but ran out of time to troubleshoot. 
-
 # Set variables
-Candidates = {}
+Candidates = []
+Candidate_Votes = []
 Count = 0
 Number_of_Votes = 0
 Percent_of_votes = 0
-Most_Votes = 0
+Votes_Per_Candidate = []
 Winner = ""
     
 # Open and read the CSV
@@ -26,28 +25,32 @@ with open(csvpath, newline="") as csvfile:
 
     #A complete list of candidates who received votes
         Candidates = row[2]
+        
+        if row[1] not in Candidates: 
+            Candidates.append(x) 
+        Candidate_Votes.append(row[2])
 
-        if candidate in Candidates:
-            candidate_index = Candidates.index(candidate)
-            Number_of_Votes[candidate_index] = Count[candidate_index] + 1
 
-        else:
-            Candidates.append(candidate)
-            number_of_votes.append(1)
+for Candidate in Candidates:
+    Votes_Per_Candidate.append(Candidate_Votes.count(Candidate))
 
+# max_votes = max(Votes_Per_Candidate)
+# winner_index = Votes_Per_Candidate.index(max_votes)
+# Winner = Candidates[winner_index]
+Winner = Candidate[Votes_Per_Candidate.index(max(Votes_Per_Candidate))]
 
 print("Election Results")
 print("-------------------------------")
 print(f"Total Votes: {Count}")
-for count in range(len(Candidates)):
-    print(f"{Candidates[count]}: {Percent_of_votes[count]}% ({Number_of_Votes[count]})")
+for x in range(len(Candidates)):
+    print(f"{Candidates[x]}: {Votes_Per_Candidate[x]/Count}% ({Votes_Per_Candidate[x]})")
 print("-------------------------------")
 print(f"Winner: {Winner}")
 
 output = (
-   f"Financial Analysis\n"
+   f"Election Results\n"
    f"--------------------------------\n"
-   f"Total Months: {total_months}\n"
+   ff"Total Votes: {Count}"
    f"Total: ${total_net}\n"
    f"Average  Change: ${average_month_change}\n"
    f"Greatest Increase in Profits: {greatest_increase[0]} (${greatest_increase[1]})\n"
