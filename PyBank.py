@@ -20,13 +20,12 @@ with open(csvpath, newline='') as csvfile:
     csv_header = next(csvreader)
     first_row = next(csvreader)
     total_months = total_months + 1
-    total_net = total_net + int(first_row[1])
     previous_net = int(first_row[1])
 
     #setting up loop
     for row in csvreader:
         total_months = total_months + 1
-        total_net = total_net + int(first_row[1])
+        total_net = total_net + int(row[1])
         net_change = int(row[1]) - previous_net
         previous_net = int(row[1])
         net_change_list = net_change_list + [net_change]
